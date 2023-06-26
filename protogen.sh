@@ -7,9 +7,10 @@ echo $OSTYPE
 
 PROTO_PATHS=(
   ./protos/common/*.proto 
-  ./protos/sample/*.proto 
+  ./protos/deal/*.proto 
   ./protos/broker/user/*.proto 
-  ./protos/broker/sample/*.proto
+  ./protos/broker/category/*.proto 
+  ./protos/broker/deal/*.proto 
 )
 
 # For windows and linux based OS, there are different methods for protogen

@@ -11,13 +11,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Sample {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  guid      String   @unique
-  title     String
-  text      String
-  isActive  Boolean? @default(true)
-  isDeleted Boolean? @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+type UserType {
+  name        String
+  fullName    String
+  phoneNumber String?
+}
+
+type Bid {
+  userId String @db.ObjectId
+  bid    String
+  order  String
+}
+
+type Review {
+  userId String @db.ObjectId
+  review String
+}
+
+type CategoryType {
+  guid        String @db.ObjectId
+  title       String
+  description String
+  parentId    String
+}
+
+model User {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  guid        String
+  name        String
+  fullName    String
+  phoneNumber String?
+}
+
+model Category {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  guid        String @db.ObjectId
+  title       String
+  description String
+  parentId    String
+}
+
+model Deal {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  guid          String       @unique
+  title         String
+  description   String
+  contactMethod String
+  activeUntil   String
+  type          String
+  status        String
+  owner         UserType
+  bids          Bid[]
+  reviews       Review[]
+  reportedBy    UserType
+  category      CategoryType
+  photos        String[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }

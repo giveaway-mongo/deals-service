@@ -23,7 +23,7 @@ async function bootstrap() {
   app.useGlobalFilters(new RpcExceptionFilter());
 
   app.connectMicroservice<MicroserviceOptions>(
-    getGrpcOptions('sample', protoPath),
+    getGrpcOptions('deal', protoPath),
     { inheritAppConfig: true },
   );
 

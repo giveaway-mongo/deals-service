@@ -1,11 +1,7 @@
-import { join } from 'path';
 import { generateCommonProtoPaths } from '@common/utils/proto-paths';
+import { join } from 'path';
 
-const paths = [
-  'common/common.proto',
-  'sample/sample.proto',
-  'sample/service.proto',
-];
+const paths = ['common/common.proto', 'deal/deal.proto', 'deal/service.proto'];
 
 export const protoPath = generateCommonProtoPaths(
   join(process.cwd(), 'protos'),

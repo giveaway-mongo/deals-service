@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { SamplesModule } from '../samples/samples.module';
-import { ConfigModule } from '@nestjs/config';
 import { isTestEnvironment } from '@common/utils/environment';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { DealsModule } from '../deals/deals.module';
 
 @Module({
   imports: [
@@ -9,7 +9,7 @@ import { isTestEnvironment } from '@common/utils/environment';
       isGlobal: true,
       envFilePath: !isTestEnvironment() ? '.env' : '.env.test',
     }),
-    SamplesModule,
+    DealsModule,
   ],
 })
 export class AppModule {}
