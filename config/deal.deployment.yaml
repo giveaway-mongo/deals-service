@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deal
+spec:
+  selector:
+    matchLabels:
+      app: deal-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: deal-app
+    spec:
+      containers:
+        - name: deal
+          image: ghcr.io/giveaway-mongo/deal:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: deal-configmap
+          ports:
+            - containerPort: 50051
+              name: deal-port
