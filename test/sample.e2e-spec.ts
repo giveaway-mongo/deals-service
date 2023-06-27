@@ -1,25 +1,22 @@
 import { INestApplication } from '@nestjs/common';
-import { SamplesController } from '../src/modules/samples/samples.controller';
+import { DealCreateRequest, DealUpdateRequest } from '@protogen/deal/deal';
+import { DealsController } from '../src/modules/deals/deals.controller';
 import prisma from './client';
-import { samples } from './fixtures/samples';
+import { deals } from './fixtures/deals';
 import { applyFixtures } from './utils/applyFixtures';
-import {
-  SampleCreateRequest,
-  SampleUpdateRequest,
-} from '@protogen/sample/sample';
 
-describe('SampleController (e2e)', () => {
+describe('DealController (e2e)', () => {
   let app: INestApplication;
-  let controller: SamplesController;
+  let controller: DealsController;
 
   beforeEach(async () => {
     app = (global as any).app;
-    controller = app.get<SamplesController>(SamplesController);
+    controller = app.get<DealsController>(DealsController);
 
-    await applyFixtures(samples, prisma.sample);
+    await applyFixtures(deals, prisma.deal);
   });
 
-  it('gets list of samples', async () => {
+  it('gets list of deals', async () => {
     const response = await controller.list({ options: undefined });
 
     expect(response.count).toEqual(3);
@@ -30,105 +27,181 @@ describe('SampleController (e2e)', () => {
     expect(count).toEqual(3);
 
     expect(results[0].guid).toEqual('66e33c1b-938a-497b-89db-56532322ac49');
-    expect(results[0].title).toEqual('First sample title');
-    expect(results[0].text).toEqual('This is the first test sample!');
+    expect(results[0].title).toEqual('First deal');
+    expect(results[0].description).toEqual('This is the first test deal!');
 
     expect(results[1].guid).toEqual('9c3feb28-1438-456e-be4f-d6edabebb3d2');
-    expect(results[1].title).toEqual('Second sample title');
-    expect(results[1].text).toEqual('This is the second test sample!');
+    expect(results[1].title).toEqual('Second deal title');
+    expect(results[1].description).toEqual('This is the second test deal!');
 
     expect(results[2].guid).toEqual('039b06f5-e1e8-48f4-8de9-4f88da9e07df');
-    expect(results[2].title).toEqual('Third sample title');
-    expect(results[2].text).toEqual('This is the third test sample!');
+    expect(results[2].title).toEqual('Third deal title');
+    expect(results[2].description).toEqual('This is the third test deal!');
   });
 
-  it('gets one sample', async () => {
+  it('gets one deal', async () => {
     const response = await controller.detail({
-      guid: '9c3feb28-1438-456e-be4f-d6edabebb3d2',
+      guid: '66e33c1b-938a-497b-89db-56532322ac50',
     });
 
     const result = response.result;
 
-    expect(result.guid).toEqual('9c3feb28-1438-456e-be4f-d6edabebb3d2');
-    expect(result.title).toEqual('Second sample title');
-    expect(result.text).toEqual('This is the second test sample!');
+    expect(result.guid).toEqual('66e33c1b-938a-497b-89db-56532322ac50');
+    expect(result.title).toEqual('Second deal title');
+    expect(result.description).toEqual('This is the second test deal!');
   });
 
-  it('creates one sample', async () => {
-    const sample: SampleCreateRequest = {
-      title: 'Title for created sample',
-      text: 'Text for created sample',
+  it('creates one deal', async () => {
+    const deal: DealCreateRequest = {
+      title: 'Title for created deal',
+      description: 'Text for created deal',
+      contactMethod: 'chat',
+      activeUntil: 'Tue Jun 27 2023 12:20:01 GMT+0500',
+      type: 'auction',
+      status: 'active',
+      owner: {
+        firstName: 'Ivan',
+        lastName: 'Ivanov',
+        phoneNumber: '375293333333',
+      },
+      bids: [
+        {
+          bid: '1000',
+          userId: '66e33c1b-938a-497b-89db-56532322ac11',
+          order: '1',
+        },
+      ],
+      reviews: [
+        {
+          review: 'good',
+          userId: '66e33c1b-938a-497b-89db-56532322ac49',
+        },
+      ],
+      reportedBy: {
+        firstName: 'Ivan',
+        lastName: 'Ivanov',
+        phoneNumber: '375293333333',
+      },
+      category: {
+        guid: '66e33c1b-938a-497b-89db-56532322ac22',
+        title: 'category',
+        description: 'category description',
+        parentId: '66e33c1b-938a-497b-89db-56532322ac33',
+      },
+      photos: [''],
     };
 
-    const response = await controller.create(sample);
+    const response = await controller.create(deal);
 
     expect(response.result.guid).toBeDefined();
-    expect(response.result.title).toEqual(sample.title);
-    expect(response.result.text).toEqual(sample.text);
+    expect(response.result.title).toEqual(deal.title);
+    expect(response.result.description).toEqual(deal.description);
   });
 
-  it('updates one sample', async () => {
-    const updatedSample: SampleUpdateRequest = {
-      guid: '039b06f5-e1e8-48f4-8de9-4f88da9e07df',
-      title: 'Updated title',
-      text: 'Updated text',
+  it('updates one deal', async () => {
+    const updatedDeal: DealUpdateRequest = {
+      guid: '66e33c1b-938a-497b-89db-56532322ac51',
+      title: 'Title for updated deal',
+      description: 'Text for updated deal',
+      contactMethod: 'chat',
+      activeUntil: 'Tue Jun 27 2023 12:20:01 GMT+0500',
+      type: 'auction',
+      status: 'active',
+      owner: {
+        firstName: 'Ivan',
+        lastName: 'Ivanov',
+        phoneNumber: '375293333333',
+      },
+      bids: [
+        {
+          bid: '1000',
+          userId: '66e33c1b-938a-497b-89db-56532322ac11',
+          order: '1',
+        },
+      ],
+      reviews: [
+        {
+          review: 'good',
+          userId: '66e33c1b-938a-497b-89db-56532322ac49',
+        },
+      ],
+      reportedBy: {
+        firstName: 'Ivan',
+        lastName: 'Ivanov',
+        phoneNumber: '375293333333',
+      },
+      category: {
+        guid: '66e33c1b-938a-497b-89db-56532322ac22',
+        title: 'category',
+        description: 'category description',
+        parentId: '66e33c1b-938a-497b-89db-56532322ac33',
+      },
+      photos: [''],
     };
 
-    const response = await controller.update(updatedSample);
+    const response = await controller.update(updatedDeal);
 
     const result = response.result;
 
-    expect(result.guid).toEqual(updatedSample.guid);
-    expect(result.title).toEqual(updatedSample.title);
-    expect(result.text).toEqual(updatedSample.text);
+    expect(result.guid).toEqual(updatedDeal.guid);
+    expect(result.title).toEqual(updatedDeal.title);
+    expect(result.description).toEqual(updatedDeal.description);
 
     const detailResponse = await controller.detail({
-      guid: updatedSample.guid,
+      guid: updatedDeal.guid,
     });
 
     const detailResult = detailResponse.result;
 
-    expect(detailResult.guid).toEqual(updatedSample.guid);
-    expect(detailResult.title).toEqual(updatedSample.title);
-    expect(detailResult.text).toEqual(updatedSample.text);
+    expect(detailResult.guid).toEqual(updatedDeal.guid);
+    expect(detailResult.title).toEqual(updatedDeal.title);
+    expect(detailResult.description).toEqual(updatedDeal.description);
   });
 
-  it('errors. Creating one sample without title', async () => {
-    const sample: SampleCreateRequest = {
+  it('errors. Creating one deal without title', async () => {
+    const deal: DealCreateRequest = {
       title: null,
-      text: 'Text for created sample',
+      description: 'Text for created deal',
+      contactMethod: 'chat',
+      activeUntil: 'Tue Jun 27 2023 12:20:01 GMT+0500',
+      type: 'auction',
+      status: 'active',
+      owner: {
+        firstName: 'Ivan',
+        lastName: 'Ivanov',
+        phoneNumber: '375293333333',
+      },
+      bids: [
+        {
+          bid: '1000',
+          userId: '66e33c1b-938a-497b-89db-56532322ac11',
+          order: '1',
+        },
+      ],
+      reviews: [
+        {
+          review: 'good',
+          userId: '66e33c1b-938a-497b-89db-56532322ac49',
+        },
+      ],
+      reportedBy: {
+        firstName: 'Ivan',
+        lastName: 'Ivanov',
+        phoneNumber: '375293333333',
+      },
+      category: {
+        guid: '66e33c1b-938a-497b-89db-56532322ac22',
+        title: 'category',
+        description: 'category description',
+        parentId: '66e33c1b-938a-497b-89db-56532322ac33',
+      },
+      photos: [''],
     };
+
     try {
-      await controller.create(sample);
+      await controller.create(deal);
     } catch (error) {
       expect(error.error.fieldErrors[0].location[0]).toEqual('title');
-    }
-  });
-
-  it('errors. Creating one sample without text', async () => {
-    const sample: SampleCreateRequest = {
-      title: 'title',
-      text: null,
-    };
-
-    try {
-      await controller.create(sample);
-    } catch (error) {
-      expect(error.error.fieldErrors[0].location[0]).toEqual('text');
-    }
-  });
-
-  it('errors. Creating one sample without title and text', async () => {
-    const sample: SampleCreateRequest = {
-      title: null,
-      text: null,
-    };
-
-    try {
-      await controller.create(sample);
-    } catch (error) {
-      expect(error.error.fieldErrors[0].location[0]).toEqual('title');
-      expect(error.error.fieldErrors[1].location[0]).toEqual('text');
     }
   });
 });

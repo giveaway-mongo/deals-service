@@ -12,8 +12,8 @@ datasource db {
 }
 
 type UserType {
-  name        String
-  fullName    String
+  firstName   String
+  lastName    String
   phoneNumber String?
 }
 
@@ -38,8 +38,8 @@ type CategoryType {
 model User {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   guid        String
-  name        String
-  fullName    String
+  firstName   String
+  lastName    String
   phoneNumber String?
 }
 
