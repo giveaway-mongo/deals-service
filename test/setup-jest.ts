@@ -34,7 +34,7 @@ global.beforeAll(async () => {
     .useGlobalFilters(new ServerExceptionFilter())
     .useGlobalFilters(new RpcExceptionFilter());
 
-  app.connectMicroservice(getGrpcTestingOptions('sample', protoPath), {
+  app.connectMicroservice(getGrpcTestingOptions('deal', protoPath), {
     inheritAppConfig: true,
   });
 
