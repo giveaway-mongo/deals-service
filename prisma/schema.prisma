@@ -18,18 +18,18 @@ type UserType {
 }
 
 type Bid {
-  userId String @db.ObjectId
+  userId String
   bid    String
   order  String
 }
 
 type Review {
-  userId String @db.ObjectId
+  userId String
   review String
 }
 
 type CategoryType {
-  guid        String @db.ObjectId
+  guid        String
   title       String
   description String
   parentId    String
@@ -37,7 +37,7 @@ type CategoryType {
 
 model User {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  guid        String
+  guid        String  @unique
   firstName   String
   lastName    String
   phoneNumber String?
@@ -45,7 +45,7 @@ model User {
 
 model Category {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
-  guid        String @db.ObjectId
+  guid        String @unique
   title       String
   description String
   parentId    String

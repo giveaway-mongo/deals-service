@@ -30,12 +30,12 @@ describe('DealController (e2e)', () => {
     expect(results[0].title).toEqual('First deal');
     expect(results[0].description).toEqual('This is the first test deal!');
 
-    expect(results[1].guid).toEqual('9c3feb28-1438-456e-be4f-d6edabebb3d2');
-    expect(results[1].title).toEqual('Second deal title');
+    expect(results[1].guid).toEqual('66e33c1b-938a-497b-89db-56532322ac50');
+    expect(results[1].title).toEqual('Second deal');
     expect(results[1].description).toEqual('This is the second test deal!');
 
-    expect(results[2].guid).toEqual('039b06f5-e1e8-48f4-8de9-4f88da9e07df');
-    expect(results[2].title).toEqual('Third deal title');
+    expect(results[2].guid).toEqual('66e33c1b-938a-497b-89db-56532322ac51');
+    expect(results[2].title).toEqual('Third deal');
     expect(results[2].description).toEqual('This is the third test deal!');
   });
 
@@ -47,7 +47,7 @@ describe('DealController (e2e)', () => {
     const result = response.result;
 
     expect(result.guid).toEqual('66e33c1b-938a-497b-89db-56532322ac50');
-    expect(result.title).toEqual('Second deal title');
+    expect(result.title).toEqual('Second deal');
     expect(result.description).toEqual('This is the second test deal!');
   });
 
