@@ -18,21 +18,21 @@ type UserType {
 }
 
 type Bid {
-  userId String
-  bid    String
-  order  String
+  userGuid String
+  bid      String
+  order    String
 }
 
 type Review {
-  userId String
-  review String
+  userGuid String
+  review   String
 }
 
 type CategoryType {
   guid        String
   title       String
   description String
-  parentId    String
+  parentGuid  String
 }
 
 model User {
@@ -48,7 +48,7 @@ model Category {
   guid        String @unique
   title       String
   description String
-  parentId    String
+  parentGuid  String
 }
 
 model Deal {

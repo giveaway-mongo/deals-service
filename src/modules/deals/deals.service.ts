@@ -46,9 +46,28 @@ export class DealsService {
       );
     }
 
+    const category = deal.category;
+    const bids = deal.bids;
+
     const dealToCreate: Prisma.DealCreateInput = {
       guid: generateGuid(),
-      ...deal,
+      type: deal.type,
+      bids,
+      title: deal.title,
+      category: {
+        guid: category.guid,
+        title: category.title,
+        description: category.description,
+        parentGuid: category.parentGuid,
+      },
+      activeUntil: deal.activeUntil,
+      contactMethod: deal.contactMethod,
+      description: deal.description,
+      owner: deal.owner,
+      photos: deal.photos,
+      reportedBy: deal.reportedBy,
+      reviews: deal.reviews,
+      status: deal.status,
     };
 
     const result = await this.prisma.deal.create({
@@ -63,19 +82,27 @@ export class DealsService {
     deal: DealUpdateRequest,
   ): Promise<WithError<{ result: Deal }>> {
     if (!guid) {
-      // Error without any fields. NonFieldError example
-      // look into rpc-exception.filter.ts file. There is RpcExceptionFilter,
-      // which handles all RpcException objects
       throw new RpcException('No guid is provided.');
     }
 
     const result = await this.prisma.deal.update({
-      data: deal,
+      data: {
+        bids: deal.bids,
+        title: deal.title,
+        description: deal.description,
+        type: deal.type,
+        category: deal.category,
+        activeUntil: deal.activeUntil,
+        contactMethod: deal.contactMethod,
+        status: deal.status,
+        photos: deal.photos,
+      },
       where: {
         guid,
       },
     });
 
+    // throw new Error('hello');
     return { result, errors: null };
   }
 

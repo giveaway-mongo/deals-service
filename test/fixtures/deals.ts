@@ -17,14 +17,14 @@ export const deals: Prisma.DealCreateInput[] = [
     bids: [
       {
         bid: '1000',
-        userId: '66e33c1b-938a-497b-89db-56532322ac11',
+        userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
         order: '1',
       },
     ],
     reviews: [
       {
         review: 'good',
-        userId: '66e33c1b-938a-497b-89db-56532322ac49',
+        userGuid: '66e33c1b-938a-497b-89db-56532322ac49',
       },
     ],
     reportedBy: {
@@ -36,7 +36,7 @@ export const deals: Prisma.DealCreateInput[] = [
       guid: '66e33c1b-938a-497b-89db-56532322ac22',
       title: 'category',
       description: 'category description',
-      parentId: '66e33c1b-938a-497b-89db-56532322ac33',
+      parentGuid: '66e33c1b-938a-497b-89db-56532322ac33',
     },
     photos: [''],
   },
@@ -56,14 +56,14 @@ export const deals: Prisma.DealCreateInput[] = [
     bids: [
       {
         bid: '1000',
-        userId: '66e33c1b-938a-497b-89db-56532322ac11',
+        userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
         order: '1',
       },
     ],
     reviews: [
       {
         review: 'good',
-        userId: '66e33c1b-938a-497b-89db-56532322ac49',
+        userGuid: '66e33c1b-938a-497b-89db-56532322ac49',
       },
     ],
     reportedBy: {
@@ -75,7 +75,7 @@ export const deals: Prisma.DealCreateInput[] = [
       guid: '66e33c1b-938a-497b-89db-56532322ac22',
       title: 'category',
       description: 'category description',
-      parentId: '66e33c1b-938a-497b-89db-56532322ac33',
+      parentGuid: '66e33c1b-938a-497b-89db-56532322ac33',
     },
     photos: [''],
   },
@@ -95,14 +95,14 @@ export const deals: Prisma.DealCreateInput[] = [
     bids: [
       {
         bid: '1000',
-        userId: '66e33c1b-938a-497b-89db-56532322ac11',
+        userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
         order: '1',
       },
     ],
     reviews: [
       {
         review: 'good',
-        userId: '66e33c1b-938a-497b-89db-56532322ac49',
+        userGuid: '66e33c1b-938a-497b-89db-56532322ac49',
       },
     ],
     reportedBy: {
@@ -114,7 +114,7 @@ export const deals: Prisma.DealCreateInput[] = [
       guid: '66e33c1b-938a-497b-89db-56532322ac22',
       title: 'category',
       description: 'category description',
-      parentId: '66e33c1b-938a-497b-89db-56532322ac33',
+      parentGuid: '66e33c1b-938a-497b-89db-56532322ac33',
     },
     photos: [''],
   },
