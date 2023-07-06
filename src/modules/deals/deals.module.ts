@@ -12,7 +12,7 @@ import { DealsService } from './deals.service';
     PrismaModule,
     ClientsModule.register([
       {
-        name: 'sample-service',
+        name: 'deals-service',
         ...getRabbitMQOptions('new_queue'),
       },
     ]),

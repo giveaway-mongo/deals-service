@@ -21,7 +21,7 @@ import { PrismaService } from '@src/prisma/prisma.service';
 export class DealsService {
   constructor(
     private prisma: PrismaService,
-    @Inject('sample-service') private client: ClientRMQ,
+    @Inject('deals-service') private client: ClientRMQ,
   ) {}
 
   async create(deal: DealCreateRequest): Promise<WithError<{ result: Deal }>> {
