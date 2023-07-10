@@ -12,9 +12,13 @@ datasource db {
 }
 
 type UserType {
-  firstName   String
-  lastName    String
-  phoneNumber String?
+  guid          String   
+  fullName      String
+  email         String
+  phoneNumber   String?
+  bidsAvailable Int  
+  isActive      Boolean?
+  isDeleted     Boolean? 
 }
 
 type Bid {
@@ -36,12 +40,16 @@ type CategoryType {
 }
 
 model User {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  guid        String  @unique
-  firstName   String
-  lastName    String
-  phoneNumber String?
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  guid          String   @unique
+  fullName      String
+  email         String
+  phoneNumber   String?
+  bidsAvailable BigInt?  @default(0)
+  isActive      Boolean? @default(true)
+  isDeleted     Boolean? @default(false)
 }
+
 
 model Category {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
@@ -60,10 +68,11 @@ model Deal {
   activeUntil   String
   type          String
   status        String
-  owner         UserType
+  author        UserType
+  buyer         UserType?
   bids          Bid[]
   reviews       Review[]
-  reportedBy    UserType
+  reportedBy    UserType[]
   category      CategoryType
   photos        String[]
   createdAt     DateTime     @default(now())

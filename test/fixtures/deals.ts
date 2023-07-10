@@ -9,7 +9,7 @@ export const deals: Prisma.DealCreateInput[] = [
     activeUntil: 'Tue Jun 27 2023 12:20:01 GMT+0500',
     type: 'auction',
     status: 'active',
-    owner: {
+    author: {
       firstName: 'Ivan',
       lastName: 'Ivanov',
       phoneNumber: '375293333333',
@@ -48,7 +48,7 @@ export const deals: Prisma.DealCreateInput[] = [
     activeUntil: 'Tue Jun 27 2023 12:20:01 GMT+0500',
     type: 'auction',
     status: 'active',
-    owner: {
+    author: {
       firstName: 'Ivan',
       lastName: 'Ivanov',
       phoneNumber: '375293333333',
@@ -87,7 +87,7 @@ export const deals: Prisma.DealCreateInput[] = [
     activeUntil: 'Tue Jun 27 2023 12:20:01 GMT+0500',
     type: 'auction',
     status: 'active',
-    owner: {
+    author: {
       firstName: 'Ivan',
       lastName: 'Ivanov',
       phoneNumber: '375293333333',

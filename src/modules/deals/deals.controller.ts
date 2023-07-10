@@ -1,13 +1,11 @@
 import { Controller } from '@nestjs/common';
-import { DealsService } from './deals.service';
 import {
-  Ctx,
   EventPattern,
   GrpcMethod,
   Payload,
-  RmqContext,
   Transport,
 } from '@nestjs/microservices';
+import { DealsService } from './deals.service';
 
 import {
   DealCreateRequest,
@@ -67,12 +65,7 @@ export class DealsController {
   }
 
   @EventPattern('user.user.add', Transport.RMQ)
-  async dealConsumer(@Payload() data: UserEvent, @Ctx() context: RmqContext) {
-    console.log(
-      data,
-      context.getPattern(),
-      context.getPattern(),
-      context.getMessage(),
-    );
+  async dealConsumer(@Payload() data: UserEvent) {
+    return;
   }
 }

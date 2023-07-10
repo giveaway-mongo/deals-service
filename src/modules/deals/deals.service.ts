@@ -16,6 +16,7 @@ import {
   DealUpdateRequest,
 } from '@protogen/deal/deal';
 import { PrismaService } from '@src/prisma/prisma.service';
+import { UserEvent } from './dto/broker.dto';
 
 @Injectable()
 export class DealsService {
@@ -63,7 +64,8 @@ export class DealsService {
       activeUntil: deal.activeUntil,
       contactMethod: deal.contactMethod,
       description: deal.description,
-      owner: deal.owner,
+      author: deal.author,
+      buyer: deal.buyer,
       photos: deal.photos,
       reportedBy: deal.reportedBy,
       reviews: deal.reviews,
@@ -102,7 +104,6 @@ export class DealsService {
       },
     });
 
-    // throw new Error('hello');
     return { result, errors: null };
   }
 
@@ -139,5 +140,26 @@ export class DealsService {
     });
 
     return { result, errors: null };
+  }
+
+  async updateUser(data: UserEvent): Promise<void> {
+    //   const deals = this.prisma.deal.findMany();
+    //   console.log(deals);
+
+    //   await this.prisma.deal.updateMany({
+    //     data: {
+    //       author: {
+    //         update: {
+    //           data,
+    //           where: {
+    //             guid:data.guid
+    //           }
+    //         },
+    //       },
+    //     },
+    //   });
+    // }
+
+    return Promise.resolve();
   }
 }

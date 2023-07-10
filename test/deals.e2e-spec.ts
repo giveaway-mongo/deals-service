@@ -25,7 +25,6 @@ describe('DealController (e2e)', () => {
       const results = response.results;
       const count = response.count;
 
-      console.log(response);
       expect(count).toEqual(3);
 
       expect(results[0].guid).toEqual('66e33c1b-938a-497b-89db-56532322ac49');
@@ -68,7 +67,7 @@ describe('DealController (e2e)', () => {
       activeUntil: 'Tue Jun 27 2023 12:20:01 GMT+0500',
       type: 'auction',
       status: 'active',
-      owner: {
+      author: {
         firstName: 'Ivan',
         lastName: 'Ivanov',
         phoneNumber: '375293333333',
@@ -98,7 +97,6 @@ describe('DealController (e2e)', () => {
         parentGuid: '66e33c1b-938a-497b-89db-56532322ac33',
       },
       photos: [''],
-      userGuid: '66e33c1b-938a-497b-89db-56532322ac12',
     };
 
     try {
@@ -121,7 +119,7 @@ describe('DealController (e2e)', () => {
       activeUntil: 'Tue Jun 27 2023 12:20:01 GMT+0500',
       type: 'auction',
       status: 'active',
-      owner: {
+      author: {
         firstName: 'Ivan',
         lastName: 'Ivanov',
         phoneNumber: '375293333333',
@@ -151,7 +149,6 @@ describe('DealController (e2e)', () => {
         parentGuid: '66e33c1b-938a-497b-89db-56532322ac33',
       },
       photos: [''],
-      userGuid: '66e33c1b-938a-497b-89db-56532322ac12',
     };
 
     try {
@@ -185,7 +182,7 @@ describe('DealController (e2e)', () => {
       activeUntil: 'Tue Jun 27 2023 12:20:01 GMT+0500',
       type: 'auction',
       status: 'active',
-      owner: {
+      author: {
         firstName: 'Ivan',
         lastName: 'Ivanov',
         phoneNumber: '375293333333',
@@ -215,7 +212,6 @@ describe('DealController (e2e)', () => {
         parentGuid: '66e33c1b-938a-497b-89db-56532322ac33',
       },
       photos: [''],
-      userGuid: '66e33c1b-938a-497b-89db-56532322ac12',
     };
 
     try {
