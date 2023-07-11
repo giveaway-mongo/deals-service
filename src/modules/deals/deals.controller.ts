@@ -1,5 +1,6 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Inject } from '@nestjs/common';
 import {
+  ClientRMQ,
   EventPattern,
   GrpcMethod,
   Payload,
@@ -17,11 +18,14 @@ import {
   DealUpdateRequest,
   DealUpdateResponse,
 } from '@protogen/deal/deal';
-import { UserEvent } from './dto/broker.dto';
+import { CategoryEvent, UserEvent } from './dto/broker.dto';
 
 @Controller()
 export class DealsController {
-  constructor(private readonly dealsService: DealsService) {}
+  constructor(
+    private readonly dealsService: DealsService,
+    @Inject('deals-service') private client: ClientRMQ,
+  ) {}
 
   @GrpcMethod('DealsService', 'CreateDeal')
   async create(
@@ -65,7 +69,22 @@ export class DealsController {
   }
 
   @EventPattern('user.user.add', Transport.RMQ)
-  async dealConsumer(@Payload() data: UserEvent) {
-    return;
+  async addUserConsumer(@Payload() data: UserEvent) {
+    this.dealsService.addUser(data);
+  }
+
+  @EventPattern('user.user.update', Transport.RMQ)
+  async updateUserConsumer(@Payload() data: UserEvent) {
+    this.dealsService.updateUser(data);
+  }
+
+  @EventPattern('category.category.add', Transport.RMQ)
+  async addCategoryConsumer(@Payload() data: CategoryEvent) {
+    this.dealsService.addCategory(data);
+  }
+
+  @EventPattern('category.category.update', Transport.RMQ)
+  async updateCategoryConsumer(@Payload() data: CategoryEvent) {
+    this.dealsService.updateCategory(data);
   }
 }

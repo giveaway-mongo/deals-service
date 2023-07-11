@@ -12,13 +12,15 @@ datasource db {
 }
 
 type UserType {
-  guid          String   
+  guid          String
   fullName      String
   email         String
   phoneNumber   String?
-  bidsAvailable Int  
+  bidsAvailable Int
   isActive      Boolean?
-  isDeleted     Boolean? 
+  isDeleted     Boolean?
+  role          String
+  avatarUrl     String
 }
 
 type Bid {
@@ -42,14 +44,15 @@ type CategoryType {
 model User {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   guid          String   @unique
-  fullName      String
   email         String
+  fullName      String
+  avatarUrl     String
   phoneNumber   String?
+  role          String
   bidsAvailable BigInt?  @default(0)
   isActive      Boolean? @default(true)
   isDeleted     Boolean? @default(false)
 }
-
 
 model Category {
   id          String @id @default(auto()) @map("_id") @db.ObjectId

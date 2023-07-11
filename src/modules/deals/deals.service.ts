@@ -16,7 +16,7 @@ import {
   DealUpdateRequest,
 } from '@protogen/deal/deal';
 import { PrismaService } from '@src/prisma/prisma.service';
-import { UserEvent } from './dto/broker.dto';
+import { CategoryEvent, DealEvent, UserEvent } from './dto/broker.dto';
 
 @Injectable()
 export class DealsService {
@@ -47,20 +47,12 @@ export class DealsService {
       );
     }
 
-    const category = deal.category;
-    const bids = deal.bids;
-
     const dealToCreate: Prisma.DealCreateInput = {
       guid: generateGuid(),
       type: deal.type,
-      bids,
+      bids: deal.bids,
       title: deal.title,
-      category: {
-        guid: category.guid,
-        title: category.title,
-        description: category.description,
-        parentGuid: category.parentGuid,
-      },
+      category: deal.category,
       activeUntil: deal.activeUntil,
       contactMethod: deal.contactMethod,
       description: deal.description,
@@ -76,6 +68,23 @@ export class DealsService {
       data: dealToCreate,
     });
 
+    this.client.emit<string, DealEvent>('deal.deal.add', {
+      guid: generateGuid(),
+      type: result.type,
+      bids: result.bids,
+      title: result.title,
+      category: result.category,
+      activeUntil: result.activeUntil,
+      contactMethod: result.contactMethod,
+      description: result.description,
+      author: result.author,
+      buyer: result.buyer,
+      photos: result.photos,
+      reportedBy: result.reportedBy,
+      reviews: result.reviews,
+      status: result.status,
+    });
+
     return { result, errors: null };
   }
 
@@ -89,19 +98,40 @@ export class DealsService {
 
     const result = await this.prisma.deal.update({
       data: {
+        type: deal.type,
         bids: deal.bids,
         title: deal.title,
-        description: deal.description,
-        type: deal.type,
         category: deal.category,
         activeUntil: deal.activeUntil,
         contactMethod: deal.contactMethod,
-        status: deal.status,
+        description: deal.description,
+        author: deal.author,
+        buyer: deal.buyer,
         photos: deal.photos,
+        reportedBy: deal.reportedBy,
+        reviews: deal.reviews,
+        status: deal.status,
       },
       where: {
         guid,
       },
+    });
+
+    this.client.emit<string, DealEvent>('deal.deal.add', {
+      guid: generateGuid(),
+      type: result.type,
+      bids: result.bids,
+      title: result.title,
+      category: result.category,
+      activeUntil: result.activeUntil,
+      contactMethod: result.contactMethod,
+      description: result.description,
+      author: result.author,
+      buyer: result.buyer,
+      photos: result.photos,
+      reportedBy: result.reportedBy,
+      reviews: result.reviews,
+      status: result.status,
     });
 
     return { result, errors: null };
@@ -142,24 +172,73 @@ export class DealsService {
     return { result, errors: null };
   }
 
+  async addUser(data: UserEvent): Promise<void> {
+    await this.prisma.user.create({ data });
+  }
+
   async updateUser(data: UserEvent): Promise<void> {
-    //   const deals = this.prisma.deal.findMany();
-    //   console.log(deals);
+    await this.prisma.deal.updateMany({
+      where: {
+        author: {
+          is: {
+            guid: data.guid,
+          },
+        },
+      },
+      data: {
+        author: {
+          set: {
+            ...data,
+          },
+        },
+      },
+    });
 
-    //   await this.prisma.deal.updateMany({
-    //     data: {
-    //       author: {
-    //         update: {
-    //           data,
-    //           where: {
-    //             guid:data.guid
-    //           }
-    //         },
-    //       },
-    //     },
-    //   });
-    // }
+    await this.prisma.deal.updateMany({
+      where: {
+        buyer: {
+          is: {
+            guid: data.guid,
+          },
+        },
+      },
+      data: {
+        buyer: {
+          set: {
+            ...data,
+          },
+        },
+      },
+    });
 
-    return Promise.resolve();
+    await this.prisma.deal.updateMany({
+      data: {
+        reportedBy: {
+          updateMany: {
+            where: {
+              guid: data.guid,
+            },
+            data: {
+              ...data,
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async addCategory(data: CategoryEvent): Promise<void> {
+    // await this.prisma.category.create({ data });
+  }
+
+  async updateCategory(data: CategoryEvent): Promise<void> {
+    // await this.prisma.category.updateMany({
+    //   where: {
+    //     guid: data.guid,
+    //   },
+    //   data: {
+    //     ...data,
+    //   },
+    // });
   }
 }
