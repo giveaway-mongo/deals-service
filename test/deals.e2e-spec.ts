@@ -1,9 +1,9 @@
 import { INestApplication } from '@nestjs/common';
+import { DealCreateRequest, DealUpdateRequest } from '@protogen/deal/deal';
 import { DealsController } from '@src/modules/deals/deals.controller';
 import prisma from './client';
 import { deals } from './fixtures/deals';
 import { applyFixtures } from './utils/applyFixtures';
-import { DealCreateRequest, DealUpdateRequest } from '@protogen/deal/deal';
 
 describe('DealController (e2e)', () => {
   let app: INestApplication;
@@ -61,21 +61,38 @@ describe('DealController (e2e)', () => {
 
   it('creates one deal', async () => {
     const deal: DealCreateRequest = {
-      title: 'Title for created deal',
-      description: 'Text for created deal',
+      title: 'First deal',
+      description: 'This is the first test deal!',
       contactMethod: 'chat',
       activeUntil: 'Tue Jun 27 2023 12:20:01 GMT+0500',
       type: 'auction',
       status: 'active',
       author: {
-        firstName: 'Ivan',
-        lastName: 'Ivanov',
+        guid: '77e33c1b-938a-497b-89db-56532322ac49',
+        fullName: 'Ivan',
         phoneNumber: '375293333333',
+        email: 'user@mail.ru',
+        bidsAvailable: 0,
+        isActive: true,
+        isDeleted: false,
+        role: 'user',
+        avatarUrl: '',
+      },
+      buyer: {
+        guid: '81e33c1b-938a-497b-89db-56532322ac49',
+        fullName: 'Ivan',
+        phoneNumber: '375293333333',
+        email: 'user@mail.ru',
+        bidsAvailable: 0,
+        isActive: true,
+        isDeleted: false,
+        role: 'user',
+        avatarUrl: '',
       },
       bids: [
         {
-          bid: '1000',
           userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
+          bid: '1000',
           order: '1',
         },
       ],
@@ -85,11 +102,19 @@ describe('DealController (e2e)', () => {
           userGuid: '66e33c1b-938a-497b-89db-56532322ac49',
         },
       ],
-      reportedBy: {
-        firstName: 'Ivan',
-        lastName: 'Ivanov',
-        phoneNumber: '375293333333',
-      },
+      reportedBy: [
+        {
+          guid: '71e33c1b-938a-497b-89db-56532322ac49',
+          fullName: 'Ivan',
+          phoneNumber: '375293333333',
+          email: 'user@mail.ru',
+          bidsAvailable: 0,
+          isActive: true,
+          isDeleted: false,
+          role: 'user',
+          avatarUrl: '',
+        },
+      ],
       category: {
         guid: '66e33c1b-938a-497b-89db-56532322ac22',
         title: 'category',
@@ -112,22 +137,39 @@ describe('DealController (e2e)', () => {
 
   it('updates one deal', async () => {
     const updatedDeal: DealUpdateRequest = {
-      guid: '66e33c1b-938a-497b-89db-56532322ac51',
-      title: 'Title for updated deal',
-      description: 'Text for updated deal',
+      guid: '66e33c1b-938a-497b-89db-56532322ac49',
+      title: 'First deal',
+      description: 'This is the first test deal!',
       contactMethod: 'chat',
       activeUntil: 'Tue Jun 27 2023 12:20:01 GMT+0500',
       type: 'auction',
       status: 'active',
       author: {
-        firstName: 'Ivan',
-        lastName: 'Ivanov',
+        guid: '77e33c1b-938a-497b-89db-56532322ac49',
+        fullName: 'Ivan',
         phoneNumber: '375293333333',
+        email: 'user@mail.ru',
+        bidsAvailable: 0,
+        isActive: true,
+        isDeleted: false,
+        role: 'user',
+        avatarUrl: '',
+      },
+      buyer: {
+        guid: '81e33c1b-938a-497b-89db-56532322ac49',
+        fullName: 'Ivan',
+        phoneNumber: '375293333333',
+        email: 'user@mail.ru',
+        bidsAvailable: 0,
+        isActive: true,
+        isDeleted: false,
+        role: 'user',
+        avatarUrl: '',
       },
       bids: [
         {
-          bid: '1000',
           userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
+          bid: '1000',
           order: '1',
         },
       ],
@@ -137,11 +179,19 @@ describe('DealController (e2e)', () => {
           userGuid: '66e33c1b-938a-497b-89db-56532322ac49',
         },
       ],
-      reportedBy: {
-        firstName: 'Ivan',
-        lastName: 'Ivanov',
-        phoneNumber: '375293333333',
-      },
+      reportedBy: [
+        {
+          guid: '71e33c1b-938a-497b-89db-56532322ac49',
+          fullName: 'Ivan',
+          phoneNumber: '375293333333',
+          email: 'user@mail.ru',
+          bidsAvailable: 0,
+          isActive: true,
+          isDeleted: false,
+          role: 'user',
+          avatarUrl: '',
+        },
+      ],
       category: {
         guid: '66e33c1b-938a-497b-89db-56532322ac22',
         title: 'category',
@@ -177,20 +227,37 @@ describe('DealController (e2e)', () => {
   it('errors. Creating one deal without title', async () => {
     const deal: DealCreateRequest = {
       title: null,
-      description: 'Text for created deal',
+      description: 'This is the first test deal!',
       contactMethod: 'chat',
       activeUntil: 'Tue Jun 27 2023 12:20:01 GMT+0500',
       type: 'auction',
       status: 'active',
       author: {
-        firstName: 'Ivan',
-        lastName: 'Ivanov',
+        guid: '77e33c1b-938a-497b-89db-56532322ac49',
+        fullName: 'Ivan',
         phoneNumber: '375293333333',
+        email: 'user@mail.ru',
+        bidsAvailable: 0,
+        isActive: true,
+        isDeleted: false,
+        role: 'user',
+        avatarUrl: '',
+      },
+      buyer: {
+        guid: '81e33c1b-938a-497b-89db-56532322ac49',
+        fullName: 'Ivan',
+        phoneNumber: '375293333333',
+        email: 'user@mail.ru',
+        bidsAvailable: 0,
+        isActive: true,
+        isDeleted: false,
+        role: 'user',
+        avatarUrl: '',
       },
       bids: [
         {
-          bid: '1000',
           userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
+          bid: '1000',
           order: '1',
         },
       ],
@@ -200,11 +267,19 @@ describe('DealController (e2e)', () => {
           userGuid: '66e33c1b-938a-497b-89db-56532322ac49',
         },
       ],
-      reportedBy: {
-        firstName: 'Ivan',
-        lastName: 'Ivanov',
-        phoneNumber: '375293333333',
-      },
+      reportedBy: [
+        {
+          guid: '71e33c1b-938a-497b-89db-56532322ac49',
+          fullName: 'Ivan',
+          phoneNumber: '375293333333',
+          email: 'user@mail.ru',
+          bidsAvailable: 0,
+          isActive: true,
+          isDeleted: false,
+          role: 'user',
+          avatarUrl: '',
+        },
+      ],
       category: {
         guid: '66e33c1b-938a-497b-89db-56532322ac22',
         title: 'category',

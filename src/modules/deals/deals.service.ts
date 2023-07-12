@@ -96,6 +96,8 @@ export class DealsService {
       throw new RpcException('No guid is provided.');
     }
 
+    
+
     const result = await this.prisma.deal.update({
       data: {
         type: deal.type,

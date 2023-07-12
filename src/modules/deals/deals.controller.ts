@@ -1,6 +1,5 @@
-import { Controller, Inject } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import {
-  ClientRMQ,
   EventPattern,
   GrpcMethod,
   Payload,
@@ -22,10 +21,7 @@ import { CategoryEvent, UserEvent } from './dto/broker.dto';
 
 @Controller()
 export class DealsController {
-  constructor(
-    private readonly dealsService: DealsService,
-    @Inject('deals-service') private client: ClientRMQ,
-  ) {}
+  constructor(private readonly dealsService: DealsService) {}
 
   @GrpcMethod('DealsService', 'CreateDeal')
   async create(
