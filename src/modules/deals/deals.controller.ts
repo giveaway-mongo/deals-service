@@ -8,6 +8,7 @@ import {
 import { DealsService } from './deals.service';
 
 import {
+  Category,
   DealCreateRequest,
   DealCreateResponse,
   DealDetailRequest,
@@ -16,6 +17,7 @@ import {
   DealListResponse,
   DealUpdateRequest,
   DealUpdateResponse,
+  User,
 } from '@protogen/deal/deal';
 import { CategoryEvent, UserEvent } from './dto/broker.dto';
 
@@ -65,22 +67,22 @@ export class DealsController {
   }
 
   @EventPattern('user.user.add', Transport.RMQ)
-  async addUserConsumer(@Payload() data: UserEvent) {
-    this.dealsService.addUser(data);
+  async addUserConsumer(@Payload() data: UserEvent): Promise<User> {
+    return this.dealsService.addUser(data);
   }
 
   @EventPattern('user.user.update', Transport.RMQ)
   async updateUserConsumer(@Payload() data: UserEvent) {
-    this.dealsService.updateUser(data);
+    await this.dealsService.updateUser(data);
   }
 
   @EventPattern('category.category.add', Transport.RMQ)
-  async addCategoryConsumer(@Payload() data: CategoryEvent) {
-    this.dealsService.addCategory(data);
+  async addCategoryConsumer(@Payload() data: CategoryEvent): Promise<Category> {
+    return this.dealsService.addCategory(data);
   }
 
   @EventPattern('category.category.update', Transport.RMQ)
   async updateCategoryConsumer(@Payload() data: CategoryEvent) {
-    this.dealsService.updateCategory(data);
+    await this.dealsService.updateCategory(data);
   }
 }

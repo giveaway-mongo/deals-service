@@ -11,9 +11,11 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientRMQ, RpcException } from '@nestjs/microservices';
 import { Deal, Prisma } from '@prisma/generated';
 import {
+  Category,
   DealCreateRequest,
   DealListRequest,
   DealUpdateRequest,
+  User,
 } from '@protogen/deal/deal';
 import { PrismaService } from '@src/prisma/prisma.service';
 import { CategoryEvent, DealEvent, UserEvent } from './dto/broker.dto';
@@ -92,11 +94,22 @@ export class DealsService {
     guid: string,
     deal: DealUpdateRequest,
   ): Promise<WithError<{ result: Deal }>> {
-    if (!guid) {
-      throw new RpcException('No guid is provided.');
+    const { userGuid } = deal;
+    let user: User;
+
+    try {
+      user = await this.prisma.user.findUniqueOrThrow({
+        where: {
+          guid: userGuid,
+        },
+      });
+    } catch {
+      throw new RpcException('User not found');
     }
 
-    
+    if (userGuid !== deal.author.guid && user.role !== 'admin') {
+      throw new RpcException('Permission denied');
+    }
 
     const result = await this.prisma.deal.update({
       data: {
@@ -174,73 +187,103 @@ export class DealsService {
     return { result, errors: null };
   }
 
-  async addUser(data: UserEvent): Promise<void> {
-    await this.prisma.user.create({ data });
+  async addUser(data: UserEvent): Promise<User> {
+    return await this.prisma.user.create({ data });
   }
 
   async updateUser(data: UserEvent): Promise<void> {
-    await this.prisma.deal.updateMany({
-      where: {
-        author: {
-          is: {
-            guid: data.guid,
-          },
+    await this.prisma.$transaction([
+      this.prisma.user.update({
+        where: {
+          guid: data.guid,
         },
-      },
-      data: {
-        author: {
-          set: {
-            ...data,
-          },
+        data: {
+          ...data,
         },
-      },
-    });
+      }),
 
-    await this.prisma.deal.updateMany({
-      where: {
-        buyer: {
-          is: {
-            guid: data.guid,
-          },
-        },
-      },
-      data: {
-        buyer: {
-          set: {
-            ...data,
-          },
-        },
-      },
-    });
-
-    await this.prisma.deal.updateMany({
-      data: {
-        reportedBy: {
-          updateMany: {
-            where: {
+      this.prisma.deal.updateMany({
+        where: {
+          author: {
+            is: {
               guid: data.guid,
             },
-            data: {
+          },
+        },
+        data: {
+          author: {
+            set: {
               ...data,
             },
           },
         },
-      },
-    });
+      }),
+
+      this.prisma.deal.updateMany({
+        where: {
+          buyer: {
+            is: {
+              guid: data.guid,
+            },
+          },
+        },
+        data: {
+          buyer: {
+            set: {
+              ...data,
+            },
+          },
+        },
+      }),
+
+      this.prisma.deal.updateMany({
+        data: {
+          reportedBy: {
+            updateMany: {
+              where: {
+                guid: data.guid,
+              },
+              data: {
+                ...data,
+              },
+            },
+          },
+        },
+      }),
+    ]);
   }
 
-  async addCategory(data: CategoryEvent): Promise<void> {
-    // await this.prisma.category.create({ data });
+  async addCategory(data: CategoryEvent): Promise<Category> {
+    return await this.prisma.category.create({ data });
   }
 
   async updateCategory(data: CategoryEvent): Promise<void> {
-    // await this.prisma.category.updateMany({
-    //   where: {
-    //     guid: data.guid,
-    //   },
-    //   data: {
-    //     ...data,
-    //   },
-    // });
+    await this.prisma.$transaction([
+      this.prisma.category.update({
+        where: {
+          guid: data.guid,
+        },
+        data: {
+          ...data,
+        },
+      }),
+
+      this.prisma.deal.updateMany({
+        where: {
+          category: {
+            is: {
+              guid: data.guid,
+            },
+          },
+        },
+        data: {
+          category: {
+            set: {
+              ...data,
+            },
+          },
+        },
+      }),
+    ]);
   }
 }
