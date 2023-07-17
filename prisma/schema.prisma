@@ -24,9 +24,9 @@ type UserType {
 }
 
 type Bid {
-  userGuid String
-  bid      String
-  order    String
+  userGuid  String
+  bid       String
+  dateOfBid String
 }
 
 type Review {
@@ -41,6 +41,13 @@ type CategoryType {
   parentGuid  String?
 }
 
+type Address {
+  country    String
+  city       String
+  street     String
+  apartament String
+}
+
 model User {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   guid          String   @unique
@@ -49,17 +56,21 @@ model User {
   avatarUrl     String
   phoneNumber   String?
   role          String
-  bidsAvailable Int  @default(0)
+  bidsAvailable Int      @default(0)
   isActive      Boolean? @default(true)
   isDeleted     Boolean? @default(false)
+  createdAt     String
+  updatedAt     String
 }
 
 model Category {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  guid        String @unique
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  guid        String  @unique
   title       String
   description String
   parentGuid  String?
+  createdAt   String
+  updatedAt   String
 }
 
 model Deal {
@@ -78,6 +89,7 @@ model Deal {
   reportedBy    UserType[]
   category      CategoryType
   photos        String[]
+  address       Address[]
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 }
