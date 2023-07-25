@@ -6,5 +6,7 @@ export const category: Prisma.CategoryCreateInput[] = [
     title: 'category 1',
     description: 'category description',
     parentGuid: null,
+    createdAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
+    updatedAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
   },
 ];

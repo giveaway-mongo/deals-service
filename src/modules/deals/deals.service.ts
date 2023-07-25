@@ -14,6 +14,12 @@ import {
 import { dateToString } from '@src/common/utils/dateToString';
 import { PrismaService } from '@src/prisma/prisma.service';
 import { CategoryEvent, DealEvent, UserEvent } from './dto/broker.dto';
+import { getErrors, getFieldErrors } from '@common/utils/error';
+import {
+  ERROR_CODES,
+  ERROR_MESSAGES,
+  ERROR_TYPES,
+} from '@common/constants/error';
 
 @Injectable()
 export class DealsService {
@@ -28,6 +34,27 @@ export class DealsService {
     //TODO: 1. check if contact method is "phone and chat" then user must have phoneNumber field
     // 2. activeUntil = null if type = firstBidder
     // 3. activeUntil should be >= 1 day
+    let fieldErrors = [];
+
+    if (!deal.title) {
+      fieldErrors = getFieldErrors(
+        [
+          {
+            location: ['title'],
+            message: ERROR_MESSAGES.EMPTY,
+            type: ERROR_TYPES.EMPTY,
+          },
+        ],
+        fieldErrors,
+      );
+    }
+
+    if (fieldErrors.length) {
+      throw new RpcException(
+        getErrors({ fieldErrors, errorCode: ERROR_CODES.BAD_REQUEST }),
+      );
+    }
+
     const dealToCreate: Prisma.DealCreateInput = {
       guid: generateGuid(),
       type: deal.type,
@@ -182,10 +209,12 @@ export class DealsService {
   }
 
   async addUser(data: UserEvent): Promise<User> {
-    return await this.prisma.user.create({ data });
+    return this.prisma.user.create({ data });
   }
 
   async updateUser(data: UserEvent): Promise<void> {
+    const { createdAt, updatedAt, ...restData } = data;
+
     await this.prisma.$transaction([
       this.prisma.user.update({
         where: {
@@ -207,7 +236,7 @@ export class DealsService {
         data: {
           author: {
             set: {
-              ...data,
+              ...restData,
             },
           },
         },
@@ -224,7 +253,7 @@ export class DealsService {
         data: {
           buyer: {
             set: {
-              ...data,
+              ...restData,
             },
           },
         },
@@ -238,7 +267,7 @@ export class DealsService {
                 guid: data.guid,
               },
               data: {
-                ...data,
+                ...restData,
               },
             },
           },
@@ -248,10 +277,12 @@ export class DealsService {
   }
 
   async addCategory(data: CategoryEvent): Promise<Category> {
-    return await this.prisma.category.create({ data });
+    return this.prisma.category.create({ data });
   }
 
   async updateCategory(data: CategoryEvent): Promise<void> {
+    const { createdAt, updatedAt, ...restData } = data;
+
     await this.prisma.$transaction([
       this.prisma.category.update({
         where: {
@@ -273,7 +304,7 @@ export class DealsService {
         data: {
           category: {
             set: {
-              ...data,
+              ...restData,
             },
           },
         },

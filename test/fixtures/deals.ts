@@ -35,7 +35,7 @@ export const deals: Prisma.DealCreateInput[] = [
       {
         userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
         bid: '1000',
-        order: '1',
+        dateOfBid: 'Tue Jun 27 2023 12:20:01 GMT+0500',
       },
     ],
     reviews: [
@@ -99,7 +99,7 @@ export const deals: Prisma.DealCreateInput[] = [
       {
         bid: '1000',
         userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
-        order: '1',
+        dateOfBid: 'Tue Jun 27 2023 12:20:01 GMT+0500',
       },
     ],
     reviews: [
@@ -153,7 +153,7 @@ export const deals: Prisma.DealCreateInput[] = [
       {
         bid: '1000',
         userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
-        order: '1',
+        dateOfBid: 'Tue Jun 27 2023 12:20:01 GMT+0500',
       },
     ],
     reviews: [

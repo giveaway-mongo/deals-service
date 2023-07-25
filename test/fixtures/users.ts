@@ -11,6 +11,8 @@ export const users: Prisma.UserCreateInput[] = [
     isDeleted: false,
     role: 'user',
     avatarUrl: '',
+    createdAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
+    updatedAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
   },
   {
     guid: '77e33c1b-938a-497b-89db-56532322ac50',
@@ -22,6 +24,8 @@ export const users: Prisma.UserCreateInput[] = [
     isDeleted: false,
     role: 'admin',
     avatarUrl: '',
+    createdAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
+    updatedAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
   },
   {
     guid: '77e33c1b-938a-497b-89db-56532322ac49',
@@ -33,5 +37,7 @@ export const users: Prisma.UserCreateInput[] = [
     isDeleted: false,
     role: 'user',
     avatarUrl: '',
+    createdAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
+    updatedAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
   },
 ];

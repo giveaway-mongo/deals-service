@@ -1,15 +1,12 @@
 import { INestApplication } from '@nestjs/common';
-import {
-  Category,
-  DealCreateRequest,
-  DealUpdateRequest,
-} from '@protogen/deal/deal';
+import { DealCreateRequest, DealUpdateRequest } from '@protogen/deal/deal';
 import { DealsController } from '@src/modules/deals/deals.controller';
 import prisma from './client';
 import { category } from './fixtures/category';
 import { deals } from './fixtures/deals';
 import { users } from './fixtures/users';
 import { applyFixtures } from './utils/applyFixtures';
+import { Category } from '@protogen/broker/category/category';
 
 describe('DealController (e2e)', () => {
   let app: INestApplication;
@@ -47,6 +44,7 @@ describe('DealController (e2e)', () => {
       expect(results[2].title).toEqual('Third deal');
       expect(results[2].description).toEqual('This is the third test deal!');
     } catch (e) {
+      console.log(e);
       expect(e).not.toBeDefined();
     }
   });
@@ -101,7 +99,7 @@ describe('DealController (e2e)', () => {
         {
           userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
           bid: '1000',
-          order: '1',
+          dateOfBid: 'Tue Jun 27 2023 12:20:01 GMT+0500',
         },
       ],
       reviews: [
@@ -178,7 +176,7 @@ describe('DealController (e2e)', () => {
         {
           userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
           bid: '1000',
-          order: '1',
+          dateOfBid: 'Tue Jun 27 2023 12:20:01 GMT+0500',
         },
       ],
       reviews: [
@@ -267,7 +265,7 @@ describe('DealController (e2e)', () => {
         {
           userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
           bid: '1000',
-          order: '1',
+          dateOfBid: 'Tue Jun 27 2023 12:20:01 GMT+0500',
         },
       ],
       reviews: [
@@ -340,7 +338,7 @@ describe('DealController (e2e)', () => {
         {
           userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
           bid: '1000',
-          order: '1',
+          dateOfBid: 'Tue Jun 27 2023 12:20:01 GMT+0500',
         },
       ],
       reviews: [
@@ -414,7 +412,7 @@ describe('DealController (e2e)', () => {
         {
           userGuid: '66e33c1b-938a-497b-89db-56532322ac11',
           bid: '1000',
-          order: '1',
+          dateOfBid: 'Tue Jun 27 2023 12:20:01 GMT+0500',
         },
       ],
       reviews: [
@@ -464,6 +462,8 @@ describe('DealController (e2e)', () => {
       isDeleted: false,
       role: 'user',
       avatarUrl: '',
+      createdAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
+      updatedAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
     };
 
     try {
@@ -493,6 +493,8 @@ describe('DealController (e2e)', () => {
       isDeleted: false,
       role: 'user',
       avatarUrl: '',
+      createdAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
+      updatedAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
     };
 
     try {
@@ -522,6 +524,8 @@ describe('DealController (e2e)', () => {
       title: 'new category',
       description: 'new category',
       parentGuid: '77e33c1b-938a-497b-89db-56532322ac51',
+      createdAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
+      updatedAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
     };
 
     try {
@@ -541,6 +545,8 @@ describe('DealController (e2e)', () => {
       title: 'updated category',
       description: 'updated category',
       parentGuid: null,
+      createdAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
+      updatedAt: 'Tue Jun 27 2023 12:20:01 GMT+0500',
     };
 
     try {
