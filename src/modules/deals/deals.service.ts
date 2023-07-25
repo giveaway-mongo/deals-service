@@ -3,7 +3,7 @@ import { generateGuid } from '@common/utils/generate-guid';
 import { getListOptions } from '@common/utils/list-params';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientRMQ, RpcException } from '@nestjs/microservices';
-import { Deal, Prisma } from '@prisma/generated';
+import { Prisma } from '@prisma/generated';
 import {
   Category,
   DealCreateRequest,
@@ -213,7 +213,11 @@ export class DealsService {
   }
 
   async updateUser(data: UserEvent): Promise<void> {
-    const { createdAt, updatedAt, ...restData } = data;
+    const dealUser = {
+      ...data,
+      updatedAt: undefined,
+      createdAt: undefined,
+    };
 
     await this.prisma.$transaction([
       this.prisma.user.update({
@@ -236,7 +240,7 @@ export class DealsService {
         data: {
           author: {
             set: {
-              ...restData,
+              ...dealUser,
             },
           },
         },
@@ -253,7 +257,7 @@ export class DealsService {
         data: {
           buyer: {
             set: {
-              ...restData,
+              ...dealUser,
             },
           },
         },
@@ -267,7 +271,7 @@ export class DealsService {
                 guid: data.guid,
               },
               data: {
-                ...restData,
+                ...dealUser,
               },
             },
           },
@@ -281,7 +285,11 @@ export class DealsService {
   }
 
   async updateCategory(data: CategoryEvent): Promise<void> {
-    const { createdAt, updatedAt, ...restData } = data;
+    const dealCategory = {
+      ...data,
+      updatedAt: undefined,
+      createdAt: undefined,
+    };
 
     await this.prisma.$transaction([
       this.prisma.category.update({
@@ -304,7 +312,7 @@ export class DealsService {
         data: {
           category: {
             set: {
-              ...restData,
+              ...dealCategory,
             },
           },
         },
