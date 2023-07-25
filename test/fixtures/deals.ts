@@ -63,7 +63,7 @@ export const deals: Prisma.DealCreateInput[] = [
       description: 'category description',
       parentGuid: '66e33c1b-938a-497b-89db-56532322ac33',
     },
-    photos: [''],
+    photos: ['src/test'],
   },
   {
     guid: '66e33c1b-938a-497b-89db-56532322ac50',
@@ -127,7 +127,7 @@ export const deals: Prisma.DealCreateInput[] = [
       description: 'category description',
       parentGuid: '66e33c1b-938a-497b-89db-56532322ac33',
     },
-    photos: [''],
+    photos: ['src/test'],
   },
   {
     guid: '66e33c1b-938a-497b-89db-56532322ac51',
@@ -181,6 +181,6 @@ export const deals: Prisma.DealCreateInput[] = [
       description: 'category description',
       parentGuid: '66e33c1b-938a-497b-89db-56532322ac33',
     },
-    photos: [''],
+    photos: ['src/test'],
   },
 ];

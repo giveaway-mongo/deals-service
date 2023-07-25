@@ -20,6 +20,7 @@ import {
   ERROR_MESSAGES,
   ERROR_TYPES,
 } from '@common/constants/error';
+import { CreateDealDto } from '@src/modules/deals/dto/create-deal.dto';
 
 @Injectable()
 export class DealsService {
@@ -28,32 +29,10 @@ export class DealsService {
     @Inject('deals-service') private client: ClientRMQ,
   ) {}
 
-  async create(
-    deal: DealCreateRequest,
-  ): Promise<WithError<{ result: DealEvent }>> {
+  async create(deal: CreateDealDto): Promise<WithError<{ result: DealEvent }>> {
     //TODO: 1. check if contact method is "phone and chat" then user must have phoneNumber field
     // 2. activeUntil = null if type = firstBidder
     // 3. activeUntil should be >= 1 day
-    let fieldErrors = [];
-
-    if (!deal.title) {
-      fieldErrors = getFieldErrors(
-        [
-          {
-            location: ['title'],
-            message: ERROR_MESSAGES.EMPTY,
-            type: ERROR_TYPES.EMPTY,
-          },
-        ],
-        fieldErrors,
-      );
-    }
-
-    if (fieldErrors.length) {
-      throw new RpcException(
-        getErrors({ fieldErrors, errorCode: ERROR_CODES.BAD_REQUEST }),
-      );
-    }
 
     const dealToCreate: Prisma.DealCreateInput = {
       guid: generateGuid(),

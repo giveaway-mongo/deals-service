@@ -20,15 +20,14 @@ import {
   User,
 } from '@protogen/deal/deal';
 import { CategoryEvent, UserEvent } from './dto/broker.dto';
+import { CreateDealDto } from '@src/modules/deals/dto/create-deal.dto';
 
 @Controller()
 export class DealsController {
   constructor(private readonly dealsService: DealsService) {}
 
   @GrpcMethod('DealsService', 'CreateDeal')
-  async create(
-    dealCreateRequest: DealCreateRequest,
-  ): Promise<DealCreateResponse> {
+  async create(dealCreateRequest: CreateDealDto): Promise<DealCreateResponse> {
     const { result, errors } = await this.dealsService.create(
       dealCreateRequest,
     );

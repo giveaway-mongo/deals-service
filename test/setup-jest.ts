@@ -1,4 +1,4 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/modules/app/app.module';
 import { getGrpcTestingOptions } from '@common/grpc/grpc-options';
@@ -24,9 +24,7 @@ global.beforeAll(async () => {
     imports: [AppModule],
   }).compile();
 
-  app = await testingModule
-    .createNestApplication()
-    .useGlobalPipes(new ValidationPipe({ transform: true }));
+  app = await testingModule.createNestApplication();
 
   app.connectMicroservice(getGrpcTestingOptions('deal', protoPath), {
     inheritAppConfig: true,
@@ -35,8 +33,6 @@ global.beforeAll(async () => {
   app.connectMicroservice(getRabbitMQOptions('new_queue'), {
     inheritAppConfig: true,
   });
-
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   await app.startAllMicroservices();
 
